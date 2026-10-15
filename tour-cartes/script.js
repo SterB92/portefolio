@@ -8,6 +8,12 @@ let deck, step, selected, busy = false,
   generation = 0;
 const $ = id => document.getElementById(id);
 
+// Synchronise les deux emplacements du message de résultat.
+function setStatus(message) {
+  $('statusTop').textContent = message;
+  $('status').textContent = message;
+}
+
 function name(id) {
   return values[id % 8] + suits[Math.floor(id / 8)];
 }
@@ -67,7 +73,7 @@ function render() {
   $('title').textContent = labels[step];
   $('controls').replaceChildren();
   $('held').replaceChildren();
-  $('status').textContent = '';
+  setStatus('');
   $('shuffle').hidden = true;
   const instructions = [
     'Voici le paquet préparé : 8 à as, trèfles puis cœurs, piques et carreaux. Le petit numéro est son rang de référence.',
@@ -103,7 +109,7 @@ function render() {
     button('Colorer les séquences', sequences);
     button('Vérifier ma carte', () => {
       [...$('deck').children].forEach((cell, i) => cell.querySelector('.card').classList.toggle('marked', deck[i] === selected));
-      $('status').textContent = 'La carte mémorisée est ' + name(selected) + ' ; position ' + (deck.indexOf(selected) + 1) + '. C’est une vérification, pas une déduction.';
+      setStatus('La carte mémorisée est ' + name(selected) + ' ; position ' + (deck.indexOf(selected) + 1) + '. C’est une vérification, pas une déduction.');
     }, true);
   }
 }
@@ -126,7 +132,7 @@ function cutControls() {
     [...$('deck').children].forEach((cell, i) => {
       cell.querySelector('.card').style.transform = i < Number(range.value) ? 'translateY(-8px)' : '';
     });
-    $('status').textContent = 'Frontière entre ' + name(deck[range.value - 1]) + ' et ' + name(deck[range.value]) + '. Les ' + range.value + ' premières cartes passeront dessous.';
+    setStatus('Frontière entre ' + name(deck[range.value - 1]) + ' et ' + name(deck[range.value]) + '. Les ' + range.value + ' premières cartes passeront dessous.');
   }
   range.oninput = preview;
   preview();
@@ -135,6 +141,7 @@ function cutControls() {
     deck = [...deck.slice(k), ...deck.slice(0, k)];
     step++;
     render();
+    setStatus("Coupe terminée : " + k + " cartes sont passées sous le paquet, sans modifier leur ordre interne.");
   });
   button('Continuer sans couper', () => {
     step++;
@@ -146,6 +153,7 @@ function insert(position) {
   deck.splice(position, 0, selected);
   step = 6;
   render();
+  setStatus("Carte remise en position " + (position + 1) + ". Vous pouvez maintenant couper à nouveau ou continuer.");
 }
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function shuffle() {
@@ -162,7 +170,7 @@ async function shuffle() {
   $('left').replaceChildren(...a.map(x => card(x, true)));
   $('right').replaceChildren(...b.map(x => card(x, true)));
   $('merged').replaceChildren();
-  $('status').textContent = 'Regardez : seule la prochaine carte de chaque moitié peut être ajoutée.';
+  setStatus('Regardez : seule la prochaine carte de chaque moitié peut être ajoutée.');
   while (a.length || b.length) {
     await wait(160);
     if (token !== generation) return;
@@ -178,7 +186,7 @@ async function shuffle() {
   deck = result;
   showDeck();
   busy = false;
-  $('status').textContent = 'Mélange terminé. L’ordre interne de chaque moitié a été conservé.';
+  setStatus('Mélange terminé. L’ordre interne de chaque moitié a été conservé.');
   $('controls').replaceChildren();
   button('Continuer', () => {
     step++;
@@ -203,7 +211,7 @@ function sequences() {
     c.classList.add('sequence');
     c.style.borderTopColor = colors[groups[deck[i]] % colors.length];
   });
-  $('status').textContent = (group + 1) + ' séquences dans cette lecture linéaire. Les cartes d’une même séquence ont la même couleur. Après une coupe, cette lecture peut scinder une séquence circulaire : ce nombre ne suffit pas à retrouver la carte.';
+  setStatus((group + 1) + ' séquences dans cette lecture linéaire. Les cartes d’une même séquence ont la même couleur. Après une coupe, cette lecture peut scinder une séquence circulaire : ce nombre ne suffit pas à retrouver la carte.');
 }
 // Recherche indépendante : uniquement le paquet final, jamais selected.
 // Critère conservateur : annuler un déplacement puis tester toutes les coupes.
@@ -243,9 +251,9 @@ function findCandidates(finalDeck) {
 function searchCard() {
   const candidates = findCandidates(deck.slice());
   [...$('deck').children].forEach((cell, i) => cell.querySelector('.card').classList.toggle('marked', candidates.includes(deck[i])));
-  if (candidates.length === 1) $('status').textContent = 'Carte retrouvée : ' + name(candidates[0]) + '. Une seule carte explique le déplacement selon le critère des séquences.';
-  else if (candidates.length) $('status').textContent = 'Résultat ambigu : ' + candidates.length + ' cartes possibles — ' + candidates.map(name).join(', ') + '. Elles sont encadrées en bleu. Le critère des séquences ne permet pas de choisir une seule carte.';
-  else $('status').textContent = 'Aucune carte compatible avec les règles analysées.';
+  if (candidates.length === 1) setStatus('Carte retrouvée : ' + name(candidates[0]) + '. Une seule carte explique le déplacement selon le critère des séquences.');
+  else if (candidates.length) setStatus('Résultat ambigu : ' + candidates.length + ' cartes possibles — ' + candidates.map(name).join(', ') + '. Elles sont encadrées en bleu. Le critère des séquences ne permet pas de choisir une seule carte.');
+  else setStatus('Aucune carte compatible avec les règles analysées.');
 }
 
 function reset() {
