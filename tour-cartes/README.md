@@ -14,7 +14,7 @@ Elle est également accessible à l’adresse `tour-cartes/index.html` sur le si
 | --- | --- |
 | `index.html` | Étapes, contrôles et zones d’affichage |
 | `style.css` | Cartes, animations, résultats et mise en page adaptative |
-| `script.js` | État de la partie, mélanges, coupes et analyse du paquet |
+| `script.js` | État du tour, mélanges, coupes et analyse du paquet |
 
 Aucune dépendance externe n’est nécessaire.
 
