@@ -1,6 +1,6 @@
 PORTFOLIO — FICHIERS SÉPARÉS
 
-À déposer à la racine du dépôt GitHub :
+Racine du dépôt GitHub :
 index.html
 style.css
 script.js
@@ -8,17 +8,11 @@ tour-cartes/index.html
 tour-cartes/style.css
 tour-cartes/script.js
 
-Remplacer index.html et ajouter tous les autres fichiers en une même validation. Ne pas déposer le dossier portfolio-separe lui-même dans le dépôt : envoyer son contenu.
+Respecter les noms en minuscules. Le site garde la même adresse.
 
-Le dossier tour-cartes doit rester nommé ainsi. Respecter les noms en minuscules. Le site garde la même adresse.
-
-Personnalisation : les liens et le nom sont dans const profil du fichier script.js. Les textes sont dans index.html. Le style du portfolio est dans style.css. Le tour possède ses trois fichiers indépendants.
+Personnalisation : les liens et le nom sont dans const profil du fichier script.js. 
+Les textes sont dans index.html. 
+Le style du portfolio est dans style.css. 
+Le tour possède ses trois fichiers indépendants.
 
 Les PDF restent sur Drive avec les accès choisis. Aucun PDF n’est inclus.
-
-Sur tablette, tester la version publiée sur GitHub Pages : les ouvertures locales content:// peuvent empêcher le chargement des fichiers voisins.
-
-VERSION COMPACTE
-Les textes, espacements et cadres du portfolio sont légèrement réduits. Le nom et l’adresse e-mail restent sélectionnables ; le reste du texte ne l’est pas par défaut. Cette option CSS n’empêche pas la copie depuis le code ou les captures d’écran. Le tour garde sa taille et ses interactions.
-
-Pour changer l’adresse affichée : modifier email dans const profil dans script.js ; le texte du bouton suivra automatiquement.
