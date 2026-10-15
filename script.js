@@ -1,3 +1,4 @@
+// Informations affichées et adresses des documents partagés.
 const profil = {
   nom: "Aurélie SITJA",
   cv: "https://drive.google.com/file/d/13ylbXoNkAmYjeAxes7RDOfkK6wEDdoOy/view?usp=drivesdk",
@@ -8,6 +9,7 @@ const profil = {
   linkedin: "https://linkedin.com/in/aur%C3%A9lie-sitja-ba26543a7",
   email: "asitja@free.fr"
 };
+
 const labels = {
   cv: "Consulter mon CV ↗",
   githubPerso: "Voir mes projets sur GitHub ↗",
@@ -17,31 +19,66 @@ const labels = {
   linkedin: "Voir mon profil LinkedIn ↗",
   email: profil.email
 };
-if (profil.nom) {
-  document.getElementById('identity').textContent = profil.nom;
-  document.getElementById('footerName').textContent = profil.nom + ' · Portfolio';
-}
-document.querySelectorAll('[data-link]').forEach(a => {
-  const k = a.dataset.link;
-  if (profil[k]) {
-    a.href = k === 'email' ? 'mailto:' + profil[k] : profil[k];
-    a.textContent = labels[k];
-    if (k !== 'email') {
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-    }
-  } else {
-    a.classList.add('disabled');
-    a.setAttribute('aria-disabled', 'true');
-    a.title = 'Lien à compléter dans la configuration de la page';
+
+function afficherIdentite() {
+  if (!profil.nom) {
+    return;
   }
-});
-// Le tour est chargé depuis son propre sous-dossier.
-const dialog = document.getElementById('tourDialog');
-document.getElementById('openTour').onclick = () => {
-  dialog.showModal();
-};
-document.getElementById('closeTour').onclick = () => dialog.close();
-dialog.addEventListener('click', e => {
-  if (e.target === dialog) dialog.close();
-});
+
+  document.getElementById("identity").textContent = profil.nom;
+  document.getElementById("footerName").textContent = profil.nom + " · Portfolio";
+}
+
+// Un champ vide désactive le lien correspondant dans la page.
+function configurerLiens() {
+  document.querySelectorAll("[data-link]").forEach((lien) => {
+    const cle = lien.dataset.link;
+    const adresse = profil[cle];
+
+    if (!adresse) {
+      lien.classList.add("disabled");
+      lien.setAttribute("aria-disabled", "true");
+      lien.title = "Lien à compléter dans la configuration de la page";
+      return;
+    }
+
+    lien.href = cle === "email" ? "mailto:" + adresse : adresse;
+    lien.textContent = labels[cle];
+
+    if (cle !== "email") {
+      lien.target = "_blank";
+      lien.rel = "noopener noreferrer";
+    }
+  });
+}
+
+function configurerFenetreDuTour() {
+  const fenetre = document.getElementById("tourDialog");
+
+  document.getElementById("openTour").addEventListener("click", () => {
+    fenetre.showModal();
+  });
+
+  document.getElementById("closeTour").addEventListener("click", () => {
+    fenetre.close();
+  });
+
+  // Fermer au clic hors du cadre, sans intercepter les clics à l'intérieur.
+  fenetre.addEventListener("click", (evenement) => {
+    const cadre = fenetre.getBoundingClientRect();
+    const horsDuCadre =
+      evenement.clientX < cadre.left ||
+      evenement.clientX > cadre.right ||
+      evenement.clientY < cadre.top ||
+      evenement.clientY > cadre.bottom;
+
+    if (evenement.target === fenetre && horsDuCadre) {
+      fenetre.close();
+    }
+  });
+}
+
+// Le script est chargé avec defer : les éléments HTML sont déjà disponibles.
+afficherIdentite();
+configurerLiens();
+configurerFenetreDuTour();
