@@ -22,7 +22,7 @@ Aucune dépendance externe n’est nécessaire.
 
 Le paquet contient 32 cartes personnalisées : les valeurs **8, 7, 6, 5, 4, 3, 2, as**, dans l’ordre des couleurs **trèfle, cœur, pique, carreau**.
 
-Chaque carte est représentée par son rang initial, de 0 à 31. Cet ordre de référence sert à l’analyse des séquences. Il ne s’agit pas de la composition habituelle d’un jeu français de 32 cartes.
+Chaque carte est représentée par son rang initial, de 0 à 31. Cet ordre de référence sert à l’analyse des séquences. Il ne s’agit pas de la composition habituelle d’un jeu de 32 cartes.
 
 ## Déroulement
 
@@ -92,4 +92,4 @@ Ces vérifications ne constituent pas une preuve exhaustive de l’algorithme et
 
 ## Réalisation
 
-Prototype développé avec assistance IA à partir de la description du tour et de son principe mathématique. L’algorithme et ses limites sont explicités pour permettre leur étude et leur amélioration.
+L’algorithme et ses limites sont explicités pour permettre leur étude et leur amélioration.
