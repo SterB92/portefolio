@@ -43,7 +43,7 @@ Chaque mélange sépare le paquet en deux moitiés, avec une première moitié d
 
 Les deux moitiés sont ensuite entrelacées. À chaque étape, la probabilité de prendre une carte dans une moitié est proportionnelle à son nombre de cartes restantes. Plusieurs cartes peuvent donc provenir successivement de la même moitié.
 
-L’ordre interne de chaque moitié est conservé. L’animation est interrompue si un nouveau est lancé.
+L’ordre interne de chaque moitié est conservé. L’animation est interrompue si un nouveau tour est lancé.
 
 ## Principe des séquences
 
