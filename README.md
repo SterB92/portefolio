@@ -74,4 +74,4 @@ Les versions préparées ont fait l’objet de vérifications de syntaxe JavaScr
 
 ## Réalisation
 
-Prototype développé avec assistance IA. La personnalisation, les évolutions et les contributions personnelles peuvent être documentées dans l’historique du dépôt.
+La personnalisation, les évolutions et les contributions personnelles peuvent être documentées dans l’historique du dépôt.
